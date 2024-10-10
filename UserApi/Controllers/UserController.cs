@@ -17,7 +17,20 @@ namespace UserApi.Controllers
             }
                 
         }
+        [HttpGet("{id}")]
+        public ActionResult<User> GetById(Guid id)
+        {
+            using (var context = new UserDbContext())
+            {
+                var user = context.NewUsers.SingleOrDefault(x => x.Id == id);
 
+                if (user!=null)
+                {
+                    return Ok(user);
+                }
+                return NotFound();
+            }
+        }
 
         [HttpPost]
         public ActionResult<User> Post([FromBody]Dto.CreateUserDto createUserDto)
